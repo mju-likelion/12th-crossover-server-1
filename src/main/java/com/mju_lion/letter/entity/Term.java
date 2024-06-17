@@ -14,16 +14,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Term extends BaseEntity{
-    @Column(nullable = false, length = 100, unique = true, name = "organization_name")
+public class Term extends BaseEntity {
+    @Column(nullable = false, length = 100, unique = true)
     private String title;
 
-    @Column(nullable = false, length = 100, name = "organization_introduction")
+    @Column(nullable = false, length = 100)
     private String terms;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "terms")
-    private List<User> users;
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "term")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "term")
     private List<UserTerm> userTerms;
 }
