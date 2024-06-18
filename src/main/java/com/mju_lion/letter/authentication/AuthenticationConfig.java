@@ -21,7 +21,7 @@ public class AuthenticationConfig implements WebMvcConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/signup", "/auth/login");
+                .excludePathPatterns("/auth/signin", "/auth/login");
     }
 
     //컨트롤러 메서드 파라미터에 인증된 유저가 들어가도록 함

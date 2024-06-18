@@ -24,7 +24,7 @@ public class SignupDto {
     private String email;
 
     //name
-    @NotBlank(message = "이름이 누락되었습니다")
+    @NotBlank(message = "이름이 누락되었습니다.")
     @Size(min = 1,max = 20,message = "이름은 최소 한글자 최대 20글자 입니다")
     private String name;
 
