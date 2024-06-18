@@ -22,6 +22,9 @@ public class User extends BaseEntity {
     @Column(length = 100, nullable = false, unique = true)
     private String email;
 
+    @Column(length = 20,nullable = false,unique = true)
+    private String name;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Board> boards;
 
