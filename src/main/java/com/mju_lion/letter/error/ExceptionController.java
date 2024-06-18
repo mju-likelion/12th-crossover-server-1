@@ -1,8 +1,7 @@
 package com.mju_lion.letter.error;
 
 
-import com.mju_lion.letter.error.exception.ConflictException;
-import com.mju_lion.letter.error.exception.CustomException;
+import com.mju_lion.letter.error.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,38 @@ public class ExceptionController {
         this.writeLog(duplicationException);
         return new ResponseEntity<>(ErrorResponseDto.res(duplicationException), HttpStatus.CONFLICT);
     }
+
+    //ForbiddenException 핸들러
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponseDto> handleForbiddenException(
+            ForbiddenException forbiddenException) {
+
+        this.writeLog(forbiddenException);
+        return new ResponseEntity<>(ErrorResponseDto.res(forbiddenException), HttpStatus.FORBIDDEN);
+    }
+
+    //NotFoundException(소스 없음) 핸들러
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleNotFoundException(
+            NotFoundException notFoundException) {
+
+        this.writeLog(notFoundException);
+        return new ResponseEntity<>(ErrorResponseDto.res(notFoundException), HttpStatus.NOT_FOUND);
+    }
+
+    //UnauthorizedException  핸들러
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(
+            UnauthorizedException unauthorizedException) {
+
+        this.writeLog(unauthorizedException);
+        return new ResponseEntity<>(ErrorResponseDto.res(unauthorizedException), HttpStatus.UNAUTHORIZED);
+    }
+
+
 
     // 원인을 알 수 없는 예외 처리
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
