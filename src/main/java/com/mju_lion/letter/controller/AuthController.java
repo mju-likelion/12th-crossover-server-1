@@ -24,7 +24,7 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     //회원가입
-    @PostMapping("/signup")
+    @PostMapping("/signin")
     public ResponseEntity<ResponseDto<Void>> signup(@RequestBody @Valid SignupDto signupDto, HttpServletResponse response){
 
         authService.signup(signupDto);
