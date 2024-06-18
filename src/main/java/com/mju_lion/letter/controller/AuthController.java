@@ -60,7 +60,7 @@ public class AuthController {
 
     //로그아웃
     @GetMapping("/logout")
-    public ResponseEntity<ResponseDto<Void>> logout(final HttpServletResponse response, @AuthenticatedUser User user) {
+    public ResponseEntity<ResponseDto<Void>> logout(final HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("AccessToken", null) //인코딩, 쿠키이름과 쿠키값을 지정한다
                 .maxAge(0) //쿠키의 만료시간
                 .path("/")  //모든 경로에서 쿠키 전달 가능
