@@ -22,7 +22,7 @@ public class SignupDto {
     private String password;
 
     //email
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "이메일이 형식에 맞지 않습니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,100}$", message = "이메일이 형식에 맞지 않습니다.")
     @NotBlank(message = "사용하실 이메일을 입력해주세요.")
     @Size(min = 1, max = 100, message = "이메일은 최소 한글자 최대 100글자 입니다")
     private String email;
