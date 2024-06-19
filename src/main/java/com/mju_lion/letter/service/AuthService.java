@@ -6,8 +6,8 @@ import com.mju_lion.letter.dto.request.auth.SignupDto;
 import com.mju_lion.letter.entity.User;
 import com.mju_lion.letter.error.ErrorCode;
 import com.mju_lion.letter.error.exception.ConflictException;
-import com.mju_lion.letter.error.exception.ForbiddenException;
 import com.mju_lion.letter.error.exception.NotFoundException;
+import com.mju_lion.letter.error.exception.UnauthorizedException;
 import com.mju_lion.letter.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class AuthService {
 
         //비밀번호 확인
         if(!passwordHashEncryption.matches(loginDto.getPassword(), user.getPassword())){
-            throw new ForbiddenException(ErrorCode.PASSWORD_NOT_EQUAL);
+            throw new UnauthorizedException(ErrorCode.PASSWORD_NOT_EQUAL);
         }
     }
 }
