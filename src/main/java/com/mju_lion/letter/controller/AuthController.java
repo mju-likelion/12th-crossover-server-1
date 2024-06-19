@@ -1,13 +1,11 @@
 package com.mju_lion.letter.controller;
 
-import com.mju_lion.letter.authentication.AuthenticatedUser;
 import com.mju_lion.letter.authentication.JwtTokenProvider;
-import com.mju_lion.letter.entity.User;
 import com.mju_lion.letter.repository.UserRepository;
 import com.mju_lion.letter.service.AuthService;
-import com.mju_lion.letter.dto.LoginDto;
-import com.mju_lion.letter.dto.ResponseDto;
-import com.mju_lion.letter.dto.SignupDto;
+import com.mju_lion.letter.dto.request.auth.LoginDto;
+import com.mju_lion.letter.dto.response.ResponseDto;
+import com.mju_lion.letter.dto.request.auth.SignupDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,21 +24,19 @@ public class AuthController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+
     //회원가입
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto<Void>> signup(@RequestBody @Valid SignupDto signupDto, HttpServletResponse response){
+    public ResponseEntity<ResponseDto<Void>> signup(@RequestBody @Valid SignupDto signupDto) {
 
         authService.signup(signupDto);
 
-        return new ResponseEntity<>(ResponseDto.res(
-                HttpStatus.CREATED,
-                "회원 가입 완료"
-        ), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseDto.res(HttpStatus.CREATED, "회원 가입 완료"), HttpStatus.CREATED);
     }
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto<Void>>login(@RequestBody @Valid LoginDto loginDto, HttpServletResponse response){
+    public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid LoginDto loginDto, HttpServletResponse response) {
         authService.login(loginDto);
 
         String payload = String.valueOf(userRepository.findByUserId(loginDto.getUserId()).getId());
@@ -52,10 +48,7 @@ public class AuthController {
                 .build();
         response.addHeader("set-cookie", cookie.toString());
 
-        return new ResponseEntity<>(ResponseDto.res(
-                HttpStatus.OK,
-                "로그인 완료"
-        ), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "로그인 완료"), HttpStatus.OK);
     }
 
     //로그아웃
@@ -67,9 +60,6 @@ public class AuthController {
                 .build();
         response.addHeader("set-cookie", cookie.toString());//set-cookie로 헤더에 쿠키를 출력함
 
-        return new ResponseEntity<>(ResponseDto.res(
-                HttpStatus.CREATED,
-                "로그 아웃 완료"
-        ), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseDto.res(HttpStatus.CREATED, "로그 아웃 완료"), HttpStatus.CREATED);
     }
 }
