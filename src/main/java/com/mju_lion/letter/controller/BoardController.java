@@ -30,7 +30,7 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto> getAllBoards(@RequestParam int page) {
+    public ResponseEntity<ResponseDto> getAllBoards(@RequestParam(value = "page") int page) {
         BoardListResponseData boardList = boardService.getAllBoards(page);
         return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "전체 게시물 조회 완료", boardList), HttpStatus.OK);
     }
