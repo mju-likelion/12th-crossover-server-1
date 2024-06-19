@@ -10,13 +10,19 @@ import com.mju_lion.letter.error.exception.ForbiddenException;
 import com.mju_lion.letter.error.exception.NotFoundException;
 import com.mju_lion.letter.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -41,10 +47,16 @@ public class BoardService {
      * 게시물 전체 조회
      */
     public BoardListResponseData getAllBoards(int page) {
-
         int size = 10;
-        Page<Board> boards = boardRepository.findAll(PageRequest.of(page, size));
-        return new BoardListResponseData((List<Board>) boards);
+        Sort sort = Sort.by(Sort.Order.desc("createdAt"));
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        List<BoardResponseData> boardResponses = boardPage.getContent().stream()
+                .map(board -> new BoardResponseData(board))
+                .collect(Collectors.toList());
+
+        return new BoardListResponseData(boardResponses);
     }
 
     /**
@@ -65,8 +77,6 @@ public class BoardService {
 
     /**
      * 게시물 삭제
-     * @param user
-     * @param boardId
      */
     public void deleteBoard(User user, UUID boardId) {
         // 게시물 검증
