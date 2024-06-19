@@ -1,4 +1,4 @@
-package com.mju_lion.letter.dto;
+package com.mju_lion.letter.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
