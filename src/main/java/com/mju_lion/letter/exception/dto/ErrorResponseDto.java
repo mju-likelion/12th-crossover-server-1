@@ -1,7 +1,7 @@
-package com.mju_lion.letter.error;
+package com.mju_lion.letter.exception.dto;
 
 
-import com.mju_lion.letter.error.exception.CustomException;
+import com.mju_lion.letter.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

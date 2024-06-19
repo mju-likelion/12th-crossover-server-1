@@ -1,4 +1,4 @@
-package com.mju_lion.letter.error;
+package com.mju_lion.letter.exception.errorcode;
 
 
 import lombok.AllArgsConstructor;

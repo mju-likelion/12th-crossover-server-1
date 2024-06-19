@@ -1,8 +1,8 @@
 package com.mju_lion.letter.authentication;
 
 
-import com.mju_lion.letter.error.ErrorCode;
-import com.mju_lion.letter.error.exception.NotFoundException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
+import com.mju_lion.letter.exception.NotFoundException;
 import com.mju_lion.letter.repository.UserRepository;
 import com.mju_lion.letter.entity.User;
 import jakarta.servlet.http.HttpServletRequest;

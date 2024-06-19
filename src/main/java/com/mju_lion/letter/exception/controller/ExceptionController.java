@@ -1,9 +1,10 @@
-package com.mju_lion.letter.error;
+package com.mju_lion.letter.exception.controller;
 
 
-import com.mju_lion.letter.error.exception.*;
+import com.mju_lion.letter.exception.*;
+import com.mju_lion.letter.exception.dto.ErrorResponseDto;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

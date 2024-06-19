@@ -1,8 +1,8 @@
 package com.mju_lion.letter.authentication;
 
 
-import com.mju_lion.letter.error.ErrorCode;
-import com.mju_lion.letter.error.exception.UnauthorizedException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
+import com.mju_lion.letter.exception.UnauthorizedException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
