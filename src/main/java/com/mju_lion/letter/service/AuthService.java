@@ -32,8 +32,7 @@ public class AuthService {
         String plainPassword = signinDto.getPassword();
         String hashedPassword = passwordHashEncryption.encrypt(plainPassword);
 
-        User user = userRepository.findByUserId(signinDto.getUserId());
-        if (null != user) {
+        if (userRepository.findByUserId(signinDto.getUserId()).isPresent()) {
             throw new ConflictException(ErrorCode.USERID_ALREADY_EXISTS);
         }
 
@@ -60,17 +59,20 @@ public class AuthService {
         }
     }
 
+    private User validateUserByUserId(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        return user;
+    }
+
     //로그인
     public void login(LoginDto loginDto) {
         //유저아이디로 찾기
-        User user = userRepository.findByUserId(loginDto.getUserId());
-        if (null == user) {
-            throw new NotFoundException(ErrorCode.USERID_NOT_FOUND);
-        }
+        User user = validateUserByUserId(loginDto.getUserId());
 
         //비밀번호 확인
         if (!passwordHashEncryption.matches(loginDto.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException(ErrorCode.PASSWORD_NOT_EQUAL);
+            throw new UnauthorizedException(ErrorCode.INVALID_PASSWORD);
         }
     }
 }
