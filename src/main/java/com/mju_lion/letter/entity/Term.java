@@ -18,7 +18,7 @@ public class Term extends BaseEntity {
     @Column(nullable = false, length = 100, unique = true)
     private String title;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String terms;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "term")
