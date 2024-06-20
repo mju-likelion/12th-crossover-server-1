@@ -23,6 +23,7 @@ public enum ErrorCode {
     USERID_NOT_FOUND("4041","아이디를 잘못 입력하셨습니다. 다시 입력해 주세요 "),
     BOARD_NOT_FOUND("4042","게시물을 찾을 수 없습니다."),
     COMMENT_NOT_FOUND("4043","댓글을 찾을 수 없습니다."),
+    TERM_NOT_FOUND("4044","약관을 찾을 수 없습니다."),
 
     //ConflictException
     USERID_ALREADY_EXISTS("4090", "사용할수 없는 아이디 입니다"),
