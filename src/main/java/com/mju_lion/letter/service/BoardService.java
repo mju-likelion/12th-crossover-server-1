@@ -4,11 +4,13 @@ import com.mju_lion.letter.dto.request.board.BoardCreateDto;
 import com.mju_lion.letter.dto.response.board.BoardListResponseData;
 import com.mju_lion.letter.dto.response.board.BoardResponseData;
 import com.mju_lion.letter.entity.Board;
+import com.mju_lion.letter.entity.Comment;
 import com.mju_lion.letter.entity.User;
-import com.mju_lion.letter.error.ErrorCode;
-import com.mju_lion.letter.error.exception.ForbiddenException;
-import com.mju_lion.letter.error.exception.NotFoundException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
+import com.mju_lion.letter.exception.ForbiddenException;
+import com.mju_lion.letter.exception.NotFoundException;
 import com.mju_lion.letter.repository.BoardRepository;
+import com.mju_lion.letter.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class BoardService {
 
     public final BoardRepository boardRepository;
+    public final CommentRepository commentRepository;
 
     /**
      * 게시물 작성
@@ -53,7 +55,9 @@ public class BoardService {
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
         List<BoardResponseData> boardResponses = boardPage.getContent().stream()
-                .map(board -> new BoardResponseData(board))
+                .map(board -> BoardResponseData.builder()
+                        .board(board)
+                        .build())
                 .collect(Collectors.toList());
 
         return new BoardListResponseData(boardResponses);
@@ -66,7 +70,12 @@ public class BoardService {
         // 게시물 검증
         Board board = validateBoard(boardId);
 
-        return new BoardResponseData(board);
+        List<Comment> commentList = commentRepository.findByBoardId(boardId);
+
+        return BoardResponseData.builder()
+                .board(board)
+                .comments(commentList)
+                .build();
     }
 
     private Board validateBoard(UUID boardId) {

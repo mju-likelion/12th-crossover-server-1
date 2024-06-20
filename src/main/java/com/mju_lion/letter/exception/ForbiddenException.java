@@ -1,6 +1,6 @@
-package com.mju_lion.letter.error.exception;
+package com.mju_lion.letter.exception;
 
-import com.mju_lion.letter.error.ErrorCode;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
 
 //접근 안됨
 public class ForbiddenException extends CustomException {

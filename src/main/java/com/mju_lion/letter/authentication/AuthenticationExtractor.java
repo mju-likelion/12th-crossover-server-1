@@ -1,7 +1,7 @@
 package com.mju_lion.letter.authentication;
 
-import com.mju_lion.letter.error.ErrorCode;
-import com.mju_lion.letter.error.exception.UnauthorizedException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
+import com.mju_lion.letter.exception.UnauthorizedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 

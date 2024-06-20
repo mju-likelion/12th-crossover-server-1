@@ -2,12 +2,12 @@ package com.mju_lion.letter.service;
 
 import com.mju_lion.letter.authentication.PasswordHashEncryption;
 import com.mju_lion.letter.dto.request.auth.LoginDto;
-import com.mju_lion.letter.dto.request.auth.SignupDto;
+import com.mju_lion.letter.dto.request.auth.SigninDto;
 import com.mju_lion.letter.entity.User;
-import com.mju_lion.letter.error.ErrorCode;
-import com.mju_lion.letter.error.exception.ConflictException;
-import com.mju_lion.letter.error.exception.NotFoundException;
-import com.mju_lion.letter.error.exception.UnauthorizedException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
+import com.mju_lion.letter.exception.ConflictException;
+import com.mju_lion.letter.exception.NotFoundException;
+import com.mju_lion.letter.exception.UnauthorizedException;
 import com.mju_lion.letter.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,21 +19,21 @@ public class AuthService {
     private final UserRepository userRepository;
 
     //회원가입
-    public void signup(SignupDto signupDto){
-        String plainPassword=signupDto.getPassword();
+    public void signup(SigninDto signinDto){
+        String plainPassword= signinDto.getPassword();
         String hashedPassword=passwordHashEncryption.encrypt(plainPassword);
 
-        User user=userRepository.findByUserId(signupDto.getUserId());
+        User user=userRepository.findByUserId(signinDto.getUserId());
         if(null!=user){
             throw new ConflictException(ErrorCode.USERID_ALREADY_EXISTS);
         }
 
         //유저 만들어주기
         User newUser = User.builder()
-                .userId(signupDto.getUserId())
+                .userId(signinDto.getUserId())
                 .password(hashedPassword)   //암호화 된 Password
-                .email(signupDto.getEmail())
-                .name(signupDto.getName())
+                .email(signinDto.getEmail())
+                .name(signinDto.getName())
                 .build();
         userRepository.save(newUser);
     }

@@ -5,7 +5,7 @@ import com.mju_lion.letter.repository.UserRepository;
 import com.mju_lion.letter.service.AuthService;
 import com.mju_lion.letter.dto.request.auth.LoginDto;
 import com.mju_lion.letter.dto.response.ResponseDto;
-import com.mju_lion.letter.dto.request.auth.SignupDto;
+import com.mju_lion.letter.dto.request.auth.SigninDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,9 +27,9 @@ public class AuthController {
 
     //회원가입
     @PostMapping("/signin")
-    public ResponseEntity<ResponseDto<Void>> signup(@RequestBody @Valid SignupDto signupDto) {
+    public ResponseEntity<ResponseDto<Void>> signup(@RequestBody @Valid SigninDto signinDto) {
 
-        authService.signup(signupDto);
+        authService.signup(signinDto);
 
         return new ResponseEntity<>(ResponseDto.res(HttpStatus.CREATED, "회원 가입 완료"), HttpStatus.CREATED);
     }
