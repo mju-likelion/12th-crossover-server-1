@@ -10,23 +10,23 @@ public enum ErrorCode {
 
     //UnauthorizedException
     PASSWORD_NOT_EQUAL("4010", "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요."),
-    TOKEN_NOT_FOUND("4011", "토큰이 없습니다"),
-    TOKEN_INVALID("4012", "토큰이 유효하지 않습니다"),
+    TOKEN_NOT_FOUND("4011", "토큰이 없습니다."),
+    TOKEN_INVALID("4012", "토큰이 유효하지 않습니다."),
 
     //ForbiddenException
     BOARD_NOT_MATCH("4030","해당 게시물에 대한 접근 권한이 없습니다."),
-    COMMENT_NOT_MATCH("4031","헤딩 댓글에 대한 접근 권한이 없습니다."),
+    COMMENT_NOT_MATCH("4031","해당 댓글에 대한 접근 권한이 없습니다."),
     COMMENT_NOT_BELONG_TO_BOARD("4032", "게시물에 속하지 않는 댓글입니다."),
 
     //NotFoundException
-    USER_NOT_FOUND("4040","유저가 존재하지 않습니다"),
-    USERID_NOT_FOUND("4041","아이디를 잘못 입력하셨습니다. 다시 입력해 주세요 "),
+    USER_NOT_FOUND("4040","유저가 존재하지 않습니다."),
+    USERID_NOT_FOUND("4041","아이디를 잘못 입력하셨습니다. 다시 입력해 주세요."),
     BOARD_NOT_FOUND("4042","게시물을 찾을 수 없습니다."),
     COMMENT_NOT_FOUND("4043","댓글을 찾을 수 없습니다."),
     TERM_NOT_FOUND("4044","약관을 찾을 수 없습니다."),
 
     //ConflictException
-    USERID_ALREADY_EXISTS("4090", "사용할수 없는 아이디 입니다"),
+    USERID_ALREADY_EXISTS("4090", "사용할수 없는 아이디 입니다."),
 
     NOT_NULL("9001", "필수값이 누락되었습니다."),
     NOT_BLANK("9002", "필수값이 빈 값이거나 공백으로 되어있습니다."),
