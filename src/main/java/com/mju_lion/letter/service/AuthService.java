@@ -40,6 +40,16 @@ public class AuthService {
             throw new ConflictException(ErrorCode.USERID_ALREADY_EXISTS);
         }
 
+        // 중복 이름 회원가입 방지
+        if (userRepository.findByName(signinDto.getName()).isPresent()) {
+            throw new ConflictException(ErrorCode.NAME_ALREADY_EXISTS);
+        }
+
+        // 중복 이메일 회원가입 방지
+        if (userRepository.findByEmail(signinDto.getEmail()).isPresent()) {
+            throw new ConflictException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
         // 비밀번호 암호화
         String plainPassword = signinDto.getPassword();
         String hashedPassword = passwordHashEncryption.encrypt(plainPassword);
