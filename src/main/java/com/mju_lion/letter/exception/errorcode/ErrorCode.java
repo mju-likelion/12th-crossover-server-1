@@ -27,6 +27,8 @@ public enum ErrorCode {
 
     //ConflictException
     USERID_ALREADY_EXISTS("4090", "사용할수 없는 아이디 입니다."),
+    NAME_ALREADY_EXISTS("4091","이미 사용 중인 이름입니다."),
+    EMAIL_ALREADY_EXISTS("4092", "이미 사용 중인 이메일입니다."),
 
     NOT_NULL("9001", "필수값이 누락되었습니다."),
     NOT_BLANK("9002", "필수값이 빈 값이거나 공백으로 되어있습니다."),
