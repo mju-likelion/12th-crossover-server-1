@@ -21,6 +21,7 @@ public class TermService {
      * 약관 전체 조회
      */
     public TermListResponseData getAllTerms() {
+        // 약관 목록 가져온 후 매핑
         List<TermResponseData> termResponseDataList = termRepository.findAll().stream()
                 .map(term -> new TermResponseData(term))
                 .collect(Collectors.toList());

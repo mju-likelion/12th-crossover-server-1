@@ -30,16 +30,21 @@ public class AuthService {
     private final UserTermRepository userTermRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    //회원가입
+    /**
+     * 회원가입
+     */
     public void signup(SigninDto signinDto) {
-        String plainPassword = signinDto.getPassword();
-        String hashedPassword = passwordHashEncryption.encrypt(plainPassword);
 
+        // 중복 아이디 회원가입 방지
         if (userRepository.findByUserId(signinDto.getUserId()).isPresent()) {
             throw new ConflictException(ErrorCode.USERID_ALREADY_EXISTS);
         }
 
-        //유저 만들어주기
+        // 비밀번호 암호화
+        String plainPassword = signinDto.getPassword();
+        String hashedPassword = passwordHashEncryption.encrypt(plainPassword);
+
+        // 유저 생성
         User newUser = User.builder()
                 .userId(signinDto.getUserId())
                 .password(hashedPassword)   //암호화 된 Password
@@ -48,7 +53,7 @@ public class AuthService {
                 .build();
         userRepository.save(newUser);
 
-        // 약관 동의 저장
+        // 약관리스트 동의 데이터 저장
         for (TermsAgreementDto termsAgreementDto : signinDto.getTermsAgreementList()) {
             Term term = termRepository.findById(UUID.fromString(termsAgreementDto.getTermId()))
                     .orElseThrow(() -> new NotFoundException(ErrorCode.TERM_NOT_FOUND));
@@ -68,16 +73,19 @@ public class AuthService {
         return user;
     }
 
-    //로그인
+    /**
+     * 로그인
+     */
     public TokenResponseDto login(LoginDto loginDto) {
-        //유저아이디로 찾기
+        // 유저 검증
         User user = validateUserByUserId(loginDto.getUserId());
 
-        //비밀번호 확인
+        // 비밀번호 검증
         if (!passwordHashEncryption.matches(loginDto.getPassword(), user.getPassword())) {
             throw new UnauthorizedException(ErrorCode.INVALID_PASSWORD);
         }
 
+        // 토큰 생성
         String payload = String.valueOf(user.getId());
         String accessToken = jwtTokenProvider.createToken(payload);
 

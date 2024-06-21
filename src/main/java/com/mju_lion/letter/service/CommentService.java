@@ -35,6 +35,7 @@ public class CommentService {
      * 댓글 작성
      */
     public void createComment(User user, UUID boardId, CommentCreateDto commentCreateDto) {
+        // 게시물 검증
         Board board = validateBoard(boardId);
 
         Comment comment = Comment.builder()
@@ -54,15 +55,18 @@ public class CommentService {
      * 전체 댓글 조회
      */
     public CommentListResponseData getAllComments(UUID boardId, int page) {
-        int size = 10;
-
         // 게시물 검증
         Board board = validateBoard(boardId);
 
+        // 한 페이지당 10개씩 노출
+        int size = 10;
+        // 생성 시간을 기준으로 오름차순 정렬
         Sort sort = Sort.by(Sort.Order.asc("createdAt"));
+        // 0-based index 이므로 페이지 번호에서 -1, size, sort 로 페이지 요청 설정
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<Comment> commentPage = commentRepository.findByBoard(board, pageable);
 
+        // 댓글 목록 가져온 후 매핑
         List<CommentResponseData> commentResponseDataList = commentPage.getContent().stream()
                 .map(comment -> new CommentResponseData(comment))
                 .collect(Collectors.toList());
@@ -75,6 +79,7 @@ public class CommentService {
      */
     public void deleteComment(User user, UUID boardId, UUID commentId) {
 
+        // 게시물 검증
         validateBoard(boardId);
 
         // 댓글 검증
@@ -85,6 +90,7 @@ public class CommentService {
             throw new ForbiddenException(ErrorCode.COMMENT_NOT_BELONG_TO_BOARD);
         }
 
+        // 댓글 작성자 검증
         if (!comment.getUser().getId().equals(user.getId())) {
             throw new ForbiddenException(ErrorCode.COMMENT_NOT_MATCH);
         }
