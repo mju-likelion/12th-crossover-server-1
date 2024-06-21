@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     //UnauthorizedException
-    INVALID_PASSWORD("4010", "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요."),
+    PASSWORD_NOT_EQUAL("4010", "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요."),
     TOKEN_NOT_FOUND("4011", "토큰이 없습니다."),
     TOKEN_INVALID("4012", "토큰이 유효하지 않습니다."),
 
