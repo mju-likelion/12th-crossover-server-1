@@ -1,9 +1,11 @@
 package com.mju_lion.letter.service;
 
+import com.mju_lion.letter.authentication.JwtTokenProvider;
 import com.mju_lion.letter.authentication.PasswordHashEncryption;
 import com.mju_lion.letter.dto.request.auth.LoginDto;
 import com.mju_lion.letter.dto.request.auth.SigninDto;
 import com.mju_lion.letter.dto.request.term.TermsAgreementDto;
+import com.mju_lion.letter.dto.response.token.TokenResponseDto;
 import com.mju_lion.letter.entity.Term;
 import com.mju_lion.letter.entity.User;
 import com.mju_lion.letter.entity.UserTerm;
@@ -26,6 +28,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TermRepository termRepository;
     private final UserTermRepository userTermRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     //회원가입
     public void signup(SigninDto signinDto) {
@@ -66,7 +69,7 @@ public class AuthService {
     }
 
     //로그인
-    public void login(LoginDto loginDto) {
+    public TokenResponseDto login(LoginDto loginDto) {
         //유저아이디로 찾기
         User user = validateUserByUserId(loginDto.getUserId());
 
@@ -74,5 +77,10 @@ public class AuthService {
         if (!passwordHashEncryption.matches(loginDto.getPassword(), user.getPassword())) {
             throw new UnauthorizedException(ErrorCode.INVALID_PASSWORD);
         }
+
+        String payload = String.valueOf(user.getId());
+        String accessToken = jwtTokenProvider.createToken(payload);
+
+        return new TokenResponseDto(accessToken);
     }
 }
