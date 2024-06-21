@@ -74,6 +74,9 @@ public class CommentService {
      * 댓글 삭제
      */
     public void deleteComment(User user, UUID boardId, UUID commentId) {
+
+        validateBoard(boardId);
+
         // 댓글 검증
         Comment comment = validateComment(commentId);
 
