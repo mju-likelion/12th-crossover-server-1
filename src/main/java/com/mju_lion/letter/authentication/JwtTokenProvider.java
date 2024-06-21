@@ -50,7 +50,7 @@ public class JwtTokenProvider {
                     .getBody()
                     .getSubject();
         } catch (JwtException e) {
-           throw new UnauthorizedException(ErrorCode.TOKEN_INVALID);
+           throw new UnauthorizedException(ErrorCode.INVALID_TOKEN);
         }
     }
 }
