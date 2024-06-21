@@ -1,5 +1,6 @@
 package com.mju_lion.letter.service;
 
+import com.mju_lion.letter.dto.response.term.TermListResponseData;
 import com.mju_lion.letter.dto.response.term.TermResponseData;
 import com.mju_lion.letter.entity.Term;
 import com.mju_lion.letter.repository.TermRepository;
@@ -19,11 +20,11 @@ public class TermService {
     /**
      * 약관 전체 조회
      */
-    public List<TermResponseData> getAllTerms() {
+    public TermListResponseData getAllTerms() {
         List<TermResponseData> termResponseDataList = termRepository.findAll().stream()
                 .map(term -> new TermResponseData(term))
                 .collect(Collectors.toList());
 
-        return termResponseDataList;
+        return new TermListResponseData(termResponseDataList);
     }
 }
