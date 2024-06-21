@@ -10,8 +10,8 @@ public enum ErrorCode {
 
     //UnauthorizedException
     INVALID_PASSWORD("4010", "유효하지 않은 비밀번호입니다."),
-    TOKEN_NOT_FOUND("4011", "토큰이 없습니다."),
-    TOKEN_INVALID("4012", "토큰이 유효하지 않습니다."),
+    COOKIE_NOT_FOUND("4011", "쿠키를 찾을 수 없습니다."),
+    INVALID_TOKEN("4012", "유효하지 않은 토큰입니다."),
 
     //ForbiddenException
     BOARD_NOT_MATCH("4030","해당 게시물에 대한 접근 권한이 없습니다."),
@@ -19,17 +19,18 @@ public enum ErrorCode {
     COMMENT_NOT_BELONG_TO_BOARD("4032", "게시물에 속하지 않는 댓글입니다."),
 
     //NotFoundException
-    USER_NOT_FOUND("4040","유저가 존재하지 않습니다."),
-    USERID_NOT_FOUND("4041","아이디를 잘못 입력하셨습니다. 다시 입력해 주세요."),
-    BOARD_NOT_FOUND("4042","게시물을 찾을 수 없습니다."),
-    COMMENT_NOT_FOUND("4043","댓글을 찾을 수 없습니다."),
-    TERM_NOT_FOUND("4044","약관을 찾을 수 없습니다."),
+    USER_NOT_FOUND("4040","존재하지 않는 사용자입니다."),
+    USERID_NOT_FOUND("4041","존재하지 않는 아이디입니다."),
+    BOARD_NOT_FOUND("4042","존재하지 않는 게시물입니다."),
+    COMMENT_NOT_FOUND("4043","존재하지 않는 댓글입니다."),
+    TERM_NOT_FOUND("4044","존재하지 않는 약관입니다."),
 
     //ConflictException
-    USERID_ALREADY_EXISTS("4090", "사용할수 없는 아이디 입니다."),
-    NAME_ALREADY_EXISTS("4091","이미 사용 중인 이름입니다."),
-    EMAIL_ALREADY_EXISTS("4092", "이미 사용 중인 이메일입니다."),
+    DUPLICATED_USERID("4090", "이미 사용 중인 아이디입니다."),
+    DUPLICATED_NAME("4091","이미 사용 중인 이름입니다."),
+    DUPLICATED_EMAIL("4092", "이미 사용 중인 이메일입니다."),
 
+    //ValidationException
     NOT_NULL("9001", "필수값이 누락되었습니다."),
     NOT_BLANK("9002", "필수값이 빈 값이거나 공백으로 되어있습니다."),
     REGEX("9003", "이메일 형식에 맞지 않습니다."),
