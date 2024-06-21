@@ -19,6 +19,6 @@ public class AuthenticationExtractor {
                 }
             }
         }
-        throw new UnauthorizedException(ErrorCode.TOKEN_NOT_FOUND);
+        throw new UnauthorizedException(ErrorCode.COOKIE_NOT_FOUND);
     }
 }
