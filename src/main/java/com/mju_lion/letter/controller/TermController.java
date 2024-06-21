@@ -22,8 +22,7 @@ public class TermController {
 
     @GetMapping
     public ResponseEntity<ResponseDto> getAllTerms() {
-        List<TermResponseData> termResponseDataList = termService.getAllTerms();
-        TermListResponseData termList = new TermListResponseData(termResponseDataList);
+        TermListResponseData termList = termService.getAllTerms();
         return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "약관 전체 조회 완료", termList), HttpStatus.OK);
     }
 }
