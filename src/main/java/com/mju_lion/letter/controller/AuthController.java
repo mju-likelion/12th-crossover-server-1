@@ -1,6 +1,7 @@
 package com.mju_lion.letter.controller;
 
 import com.mju_lion.letter.authentication.JwtTokenProvider;
+import com.mju_lion.letter.dto.response.token.TokenResponseDto;
 import com.mju_lion.letter.repository.UserRepository;
 import com.mju_lion.letter.service.AuthService;
 import com.mju_lion.letter.dto.request.auth.LoginDto;
@@ -22,7 +23,6 @@ import java.time.Duration;
 public class AuthController {
 
     private final AuthService authService;
-    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
     //회원가입
@@ -37,14 +37,14 @@ public class AuthController {
     //로그인
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid LoginDto loginDto, HttpServletResponse response) {
-        authService.login(loginDto);
 
-        String payload = String.valueOf(userRepository.findByUserId(loginDto.getUserId()).getId());
-        String accessToken = jwtTokenProvider.createToken(payload);
+        TokenResponseDto tokenResponseDto = authService.login(loginDto);
+        String accessToken = tokenResponseDto.getAccessToken();
 
         ResponseCookie cookie = ResponseCookie.from("AccessToken", "Bearer+" + accessToken)
                 .maxAge(Duration.ofMillis(1800000))
                 .path("/")
+                .httpOnly(true)
                 .build();
         response.addHeader("set-cookie", cookie.toString());
 
@@ -60,6 +60,6 @@ public class AuthController {
                 .build();
         response.addHeader("set-cookie", cookie.toString());//set-cookie로 헤더에 쿠키를 출력함
 
-        return new ResponseEntity<>(ResponseDto.res(HttpStatus.CREATED, "로그 아웃 완료"), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "로그 아웃 완료"), HttpStatus.OK);
     }
 }
