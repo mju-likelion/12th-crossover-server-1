@@ -49,11 +49,15 @@ public class BoardService {
      * 게시물 전체 조회
      */
     public BoardListResponseData getAllBoards(int page) {
+        // 한 페이지당 10개씩 노출
         int size = 10;
+        // 생성 시간을 기준으로 내림차순 정렬
         Sort sort = Sort.by(Sort.Order.desc("createdAt"));
+        // 0-based index 이므로 페이지 번호에서 -1, size, sort 로 페이지 요청 설정
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
+        // 게시물 목록 가져온 후 매핑
         List<BoardResponseData> boardResponses = boardPage.getContent().stream()
                 .map(board -> BoardResponseData.builder()
                         .board(board)
@@ -70,6 +74,7 @@ public class BoardService {
         // 게시물 검증
         Board board = validateBoard(boardId);
 
+        // 게시물에 달린 댓글리스트
         List<Comment> commentList = commentRepository.findByBoardId(boardId);
 
         return BoardResponseData.builder()
@@ -91,6 +96,7 @@ public class BoardService {
         // 게시물 검증
         Board board = validateBoard(boardId);
 
+        // 게시물 작성자 검증
         if (!board.getUser().getId().equals(user.getId())) {
             throw new ForbiddenException(ErrorCode.BOARD_NOT_MATCH);
         }
