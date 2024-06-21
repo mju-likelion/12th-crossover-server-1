@@ -37,17 +37,17 @@ public class AuthService {
 
         // 중복 아이디 회원가입 방지
         if (userRepository.findByUserId(signinDto.getUserId()).isPresent()) {
-            throw new ConflictException(ErrorCode.USERID_ALREADY_EXISTS);
+            throw new ConflictException(ErrorCode.DUPLICATED_USERID);
         }
 
         // 중복 이름 회원가입 방지
         if (userRepository.findByName(signinDto.getName()).isPresent()) {
-            throw new ConflictException(ErrorCode.NAME_ALREADY_EXISTS);
+            throw new ConflictException(ErrorCode.DUPLICATED_NAME);
         }
 
         // 중복 이메일 회원가입 방지
         if (userRepository.findByEmail(signinDto.getEmail()).isPresent()) {
-            throw new ConflictException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            throw new ConflictException(ErrorCode.DUPLICATED_EMAIL);
         }
 
         // 비밀번호 암호화
