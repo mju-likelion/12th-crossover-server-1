@@ -1,12 +1,14 @@
 package com.mju_lion.letter.controller;
 
-import com.mju_lion.letter.authentication.JwtTokenProvider;
+import com.mju_lion.letter.authentication.AuthenticationExtractor;
+import com.mju_lion.letter.authentication.JwtEncoder;
 import com.mju_lion.letter.dto.response.token.TokenResponseDto;
 import com.mju_lion.letter.repository.UserRepository;
 import com.mju_lion.letter.service.AuthService;
 import com.mju_lion.letter.dto.request.auth.LoginDto;
 import com.mju_lion.letter.dto.response.ResponseDto;
 import com.mju_lion.letter.dto.request.auth.SigninDto;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -39,12 +41,11 @@ public class AuthController {
     public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid LoginDto loginDto, HttpServletResponse response) {
 
         TokenResponseDto tokenResponseDto = authService.login(loginDto);
-        String accessToken = tokenResponseDto.getAccessToken();
+        String bearerToken = JwtEncoder.encodeJwtToken(tokenResponseDto.getAccessToken());
 
-        ResponseCookie cookie = ResponseCookie.from("AccessToken", "Bearer+" + accessToken)
+        ResponseCookie cookie = ResponseCookie.from(AuthenticationExtractor.TOKEN_COOKIE_NAME, bearerToken)
                 .maxAge(Duration.ofMillis(1800000))
                 .path("/")
-                .httpOnly(true)
                 .sameSite("None").secure(true)
                 .build();
         response.addHeader("set-cookie", cookie.toString());
