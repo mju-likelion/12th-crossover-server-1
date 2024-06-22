@@ -6,7 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class AuthenticationExtractor {
-    private static final String TOKEN_COOKIE_NAME = "AccessToken";
+    public static final String TOKEN_COOKIE_NAME = "AccessToken";
 
     public static String extract(final HttpServletRequest request) {
 
@@ -15,7 +15,7 @@ public class AuthenticationExtractor {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (TOKEN_COOKIE_NAME.equals(cookie.getName())) {
-                    return cookie.getValue().replace("+", " ").substring("Bearer ".length()); //디코딩
+                    return JwtEncoder.decodeJwtBearerToken(cookie.getValue()); //디코딩
                 }
             }
         }
