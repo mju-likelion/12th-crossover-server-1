@@ -77,7 +77,7 @@ public class AuthService {
         }
     }
 
-    private User validateUserByUserId(String userId) {
+    private User findExistingUser(String userId) {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         return user;
@@ -88,7 +88,7 @@ public class AuthService {
      */
     public TokenResponseDto login(LoginDto loginDto) {
         // 유저 검증
-        User user = validateUserByUserId(loginDto.getUserId());
+        User user = findExistingUser(loginDto.getUserId());
 
         // 비밀번호 검증
         if (!passwordHashEncryption.matches(loginDto.getPassword(), user.getPassword())) {
