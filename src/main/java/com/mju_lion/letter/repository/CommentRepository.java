@@ -11,6 +11,6 @@ import java.util.List;
 import java.util.UUID;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, UUID> {
-    List<Comment> findByBoardId(UUID boardId);
+    List<Comment> findAllByBoardIdOrderByCreatedAtAsc(UUID boardId);
     Page<Comment> findByBoard(Board board, Pageable pageable);
 }
