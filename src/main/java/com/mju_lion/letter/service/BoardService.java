@@ -72,7 +72,7 @@ public class BoardService {
         Board board = findExistingBoard(boardId);
 
         // 게시물에 달린 댓글리스트
-        List<Comment> commentList = commentRepository.findByBoardId(boardId);
+        List<Comment> commentList = commentRepository.findAllByBoardIdOrderByCreatedAtAsc(boardId);
 
         return BoardResponseData.builder()
                 .board(board)
