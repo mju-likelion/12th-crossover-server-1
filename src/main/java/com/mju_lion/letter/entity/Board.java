@@ -1,5 +1,7 @@
 package com.mju_lion.letter.entity;
 
+import com.mju_lion.letter.exception.ForbiddenException;
+import com.mju_lion.letter.exception.errorcode.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +28,10 @@ public class Board extends BaseEntity{
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "board")
     private List<Comment> comments;
+
+    public void validateBoardByUserId(Board board, User user) {
+        if (!board.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException(ErrorCode.BOARD_NOT_MATCH);
+        }
+    }
 }
