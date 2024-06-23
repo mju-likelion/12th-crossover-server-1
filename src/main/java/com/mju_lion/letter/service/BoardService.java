@@ -1,6 +1,7 @@
 package com.mju_lion.letter.service;
 
 import com.mju_lion.letter.dto.request.board.BoardCreateDto;
+import com.mju_lion.letter.dto.request.page.PaginationData;
 import com.mju_lion.letter.dto.response.board.BoardListResponseData;
 import com.mju_lion.letter.dto.response.board.BoardResponseData;
 import com.mju_lion.letter.entity.Board;
@@ -48,13 +49,9 @@ public class BoardService {
     /**
      * 게시물 전체 조회
      */
-    public BoardListResponseData getAllBoards(int page) {
-        // 한 페이지당 10개씩 노출
-        int size = 10;
-        // 생성 시간을 기준으로 내림차순 정렬
-        Sort sort = Sort.by(Sort.Order.desc("createdAt"));
-        // 0-based index 이므로 페이지 번호에서 -1, size, sort 로 페이지 요청 설정
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
+    public BoardListResponseData getAllBoards(PaginationData paginationData) {
+        // page, size, sort 로 페이지 요청 설정
+        Pageable pageable = PageRequest.of(paginationData.getPage(), paginationData.getSize(), Sort.by(Sort.Order.desc("createdAt")));
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
         // 게시물 목록 가져온 후 매핑
@@ -72,7 +69,7 @@ public class BoardService {
      */
     public BoardResponseData getBoardById(UUID boardId) {
         // 게시물 검증
-        Board board = validateBoard(boardId);
+        Board board = findExistingBoard(boardId);
 
         // 게시물에 달린 댓글리스트
         List<Comment> commentList = commentRepository.findByBoardId(boardId);
@@ -83,10 +80,9 @@ public class BoardService {
                 .build();
     }
 
-    private Board validateBoard(UUID boardId) {
-        Board board = boardRepository.findById(boardId)
+    private Board findExistingBoard(UUID boardId) {
+        return boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BOARD_NOT_FOUND));
-        return board;
     }
 
     /**
@@ -94,12 +90,10 @@ public class BoardService {
      */
     public void deleteBoard(User user, UUID boardId) {
         // 게시물 검증
-        Board board = validateBoard(boardId);
+        Board board = findExistingBoard(boardId);
 
         // 게시물 작성자 검증
-        if (!board.getUser().getId().equals(user.getId())) {
-            throw new ForbiddenException(ErrorCode.BOARD_NOT_MATCH);
-        }
+        board.validateBoardByUserId(board, user);
 
         boardRepository.delete(board);
     }

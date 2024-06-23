@@ -2,6 +2,7 @@ package com.mju_lion.letter.controller;
 
 import com.mju_lion.letter.authentication.AuthenticatedUser;
 import com.mju_lion.letter.dto.request.board.BoardCreateDto;
+import com.mju_lion.letter.dto.request.page.PaginationData;
 import com.mju_lion.letter.dto.response.ResponseDto;
 import com.mju_lion.letter.dto.response.board.BoardListResponseData;
 import com.mju_lion.letter.dto.response.board.BoardResponseData;
@@ -31,7 +32,8 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<ResponseDto> getAllBoards(@RequestParam(value = "page", defaultValue = "1") int page) {
-        BoardListResponseData boardList = boardService.getAllBoards(page);
+        PaginationData paginationData = new PaginationData(page);
+        BoardListResponseData boardList = boardService.getAllBoards(paginationData);
         return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "전체 게시물 조회 완료", boardList), HttpStatus.OK);
     }
 

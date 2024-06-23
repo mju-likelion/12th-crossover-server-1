@@ -2,6 +2,7 @@ package com.mju_lion.letter.controller;
 
 import com.mju_lion.letter.authentication.AuthenticatedUser;
 import com.mju_lion.letter.dto.request.comment.CommentCreateDto;
+import com.mju_lion.letter.dto.request.page.PaginationData;
 import com.mju_lion.letter.dto.response.ResponseDto;
 import com.mju_lion.letter.dto.response.comment.CommentListResponseData;
 import com.mju_lion.letter.entity.User;
@@ -31,7 +32,8 @@ public class CommentController {
     @GetMapping
     public ResponseEntity<ResponseDto> getAllComments(@PathVariable("boardId") UUID boardId,
                                                       @RequestParam(value = "page", defaultValue = "1") int page) {
-        CommentListResponseData commentList = commentService.getAllComments(boardId, page);
+        PaginationData paginationData = new PaginationData(page);
+        CommentListResponseData commentList = commentService.getAllComments(boardId, paginationData);
         return new ResponseEntity<>(ResponseDto.res(HttpStatus.OK, "전체 댓글 조회 완료", commentList), HttpStatus.OK);
     }
 
