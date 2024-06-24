@@ -46,6 +46,7 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from(AuthenticationExtractor.TOKEN_COOKIE_NAME, bearerToken)
                 .maxAge(Duration.ofMillis(1800000))
                 .path("/")
+                .httpOnly(true)
                 .sameSite("None").secure(true)
                 .build();
         response.addHeader("set-cookie", cookie.toString());
