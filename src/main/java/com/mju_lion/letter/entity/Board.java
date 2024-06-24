@@ -26,7 +26,7 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "board")
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
     public void validateBoardByUserId(Board board, User user) {
