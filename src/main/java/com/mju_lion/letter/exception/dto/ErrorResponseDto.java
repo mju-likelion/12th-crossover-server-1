@@ -5,6 +5,8 @@ import com.mju_lion.letter.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 @AllArgsConstructor
 public class ErrorResponseDto {
@@ -22,6 +24,6 @@ public class ErrorResponseDto {
 
     //예상치못한 예외 발생
     public static ErrorResponseDto res(final String errorCode, final Exception exception) {
-        return new ErrorResponseDto(errorCode, exception.getMessage(), null);
+        return new ErrorResponseDto(errorCode, exception.getMessage(), Arrays.toString(exception.getStackTrace()));
     }
 }
