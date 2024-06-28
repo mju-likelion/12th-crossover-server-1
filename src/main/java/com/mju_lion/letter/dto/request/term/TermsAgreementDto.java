@@ -9,5 +9,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TermsAgreementDto {
     private String termId;
-    private boolean agreed;
+    private Boolean agreed;
 }
