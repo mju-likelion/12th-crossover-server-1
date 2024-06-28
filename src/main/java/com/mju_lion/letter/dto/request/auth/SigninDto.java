@@ -2,6 +2,7 @@ package com.mju_lion.letter.dto.request.auth;
 
 import com.mju_lion.letter.dto.request.term.TermsAgreementDto;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,6 @@ public class SigninDto {
     private String name;
 
     //이용약관
+    @NotNull(message = "이용 약관에 동의해야 합니다.")
     private List<TermsAgreementDto> termsAgreementList;
 }
