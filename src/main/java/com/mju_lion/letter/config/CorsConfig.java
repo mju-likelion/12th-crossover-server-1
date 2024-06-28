@@ -20,7 +20,15 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(clientHosts.toArray(new String[0]))
                 .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
                         HttpMethod.PATCH.name(), HttpMethod.DELETE.name(),
-                        HttpMethod.OPTIONS.name())
+                        HttpMethod.OPTIONS.name(), HttpMethod.TRACE.name(), HttpMethod.HEAD.name())
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(MAX_AGE_SECS);
+        registry.addMapping("/boards/**")
+                .allowedOrigins(clientHosts.toArray(new String[0]))
+                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
+                        HttpMethod.PATCH.name(), HttpMethod.DELETE.name(),
+                        HttpMethod.OPTIONS.name(), HttpMethod.TRACE.name(), HttpMethod.HEAD.name())
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
