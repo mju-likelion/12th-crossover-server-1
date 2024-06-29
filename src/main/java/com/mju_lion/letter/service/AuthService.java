@@ -71,7 +71,7 @@ public class AuthService {
             UserTerm userTerm = UserTerm.builder()
                     .user(newUser)
                     .term(term)
-                    .agreed(termsAgreementDto.isAgreed())
+                    .agreed(termsAgreementDto.getAgreed())
                     .build();
             userTermRepository.save(userTerm);
         }
